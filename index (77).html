@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Porcana Green - Made In Uruguay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-1: #7ed957;
+    --green-2: #5cb831;
+    --green-3: #3d8b1f;
+    --green-dark: #1f5410;
+    --sky-1: #a8e0ff;
+    --sky-2: #6cc5ff;
+    --gold: #ffcb3d;
+    --gold-2: #ff9b1c;
+    --gold-glow: #ffe88a;
+    --pink: #ff6b9d;
+    --pink-soft: #ffb3d1;
+    --brown: #8b5a2b;
+    --brown-light: #c08855;
+    --red: #e63946;
+    --barn-red: #c53030;
+    --cream: #fff5e1;
+    --shadow: rgba(0,0,0,0.18);
+    --panel-bg: linear-gradient(160deg, rgba(255,255,255,0.95), rgba(255,245,225,0.92));
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Fredoka', sans-serif; user-select: none; }
+  body {
+    background: linear-gradient(180deg, #87ceeb 0%, #b3e0f5 30%, #c8e89f 60%, #7ed957 100%);
+    position: relative;
+  }
+
+  /* ============ APP CONTAINER ============ */
+  #app { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+  /* ============ TOP BAR ============ */
+  .top-bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 8px 12px; display: flex; flex-direction: column; gap: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25), transparent);
+    pointer-events: none;
+  }
+  .logo-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    pointer-events: auto;
+  }
+  .logo {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 28px; letter-spacing: 1px;
+    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 60%, #c2410c 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 3px 0 rgba(0,0,0,0.25);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    line-height: 1;
+  }
+  .logo-sub {
+    font-size: 10px; color: #fff; font-weight: 600; letter-spacing: 2px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5); text-transform: uppercase;
+  }
+  .top-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    pointer-events: auto;
+  }
+  .player-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,245,225,0.9));
+    border: 2px solid #fff;
+    border-radius: 999px; padding: 4px 10px 4px 4px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .player-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff9b1c, #ffcb3d);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; border: 2px solid #fff;
+  }
+  .player-info { display: flex; flex-direction: column; line-height: 1; }
+  .player-name { font-weight: 700; font-size: 12px; color: #2d1b0a; }
+  .player-id { font-size: 9px; color: #8b5a2b; }
+
+  .balance-card {
+    background: linear-gradient(180deg, #fff8d6 0%, #ffd700 100%);
+    border: 3px solid #fff; border-radius: 18px;
+    padding: 6px 14px; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 12px rgba(255,150,0,0.4), inset 0 -2px 0 rgba(0,0,0,0.1);
+    flex: 1; max-width: 200px; justify-content: center;
+  }
+  .balance-icon { font-size: 22px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+  .balance-amount {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 22px; color: #5c2c0a;
+    text-shadow: 0 1px 0 #fff;
+    line-height: 1;
+  }
+  .balance-currency { font-size: 11px; font-weight: 700; color: #5c2c0a; opacity: 0.7; }
+
+  .animals-pill {
+    display: flex; gap: 4px; align-items: center;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,255,255,0.3); border-radius: 14px;
+    padding: 4px 8px; font-size: 11px; color: #fff; font-weight: 600;
+  }
+  .animal-count { display: flex; align-items: center; gap: 2px; }
+  .animal-count-icon { width: 18px; height: 18px; }
+
+  /* ============ FARM SCENE ============ */
+  .farm-scene {
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+  .sky-bg {
+    position: absolute; top: 0; left: 0; right: 0; height: 35%;
+    background: linear-gradient(180deg, #6cc5ff 0%, #a8e0ff 70%, #d0f0d0 100%);
+    z-index: 1;
+  }
+  .clouds { position: absolute; top: 0; left: 0; right: 0; height: 35%; z-index: 2; }
+  .cloud {
+    position: absolute; opacity: 0.95;
+    animation: cloud-drift linear infinite;
+  }
+  .cloud-1 { top: 8%; animation-duration: 65s; }
+  .cloud-2 { top: 18%; animation-duration: 80s; animation-delay: -20s; transform: scale(0.7); }
+  .cloud-3 { top: 12%; animation-duration: 55s; animation-delay: -40s; transform: scale(0.85); }
+  @keyframes cloud-drift {
+    from { left: -15%; }
+    to { left: 110%; }
+  }
+  .sun {
+    position: absolute; top: 6%; right: 8%; z-index: 2;
+    animation: sun-pulse 4s ease-in-out infinite;
+  }
+  @keyframes sun-pulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,200,0,0.6)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 18px rgba(255,200,0,0.9)); }
+  }
+
+  .ground {
+    position: absolute; bottom: 0; left: 0; right: 0; top: 30%;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.08), transparent 50%),
+      radial-gradient(ellipse at 70% 60%, rgba(0,0,0,0.05), transparent 60%),
+      linear-gradient(180deg, #9ee066 0%, #7cc24a 30%, #5fa635 70%, #3d8b1f 100%);
+    z-index: 3;
+  }
+  .ground::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(0,0,0,0.06) 1px, transparent 2px),
+      radial-gradient(circle at 75% 35%, rgba(0,0,0,0.06) 1px, transparent 2px),
+      radial-gradient(circle at 45% 60%, rgba(0,0,0,0.05) 1px, transparent 2px),
+      radial-gradient(circle at 85% 80%, rgba(0,0,0,0.06) 1px, transparent 2px);
+    background-size: 80px 80px, 100px 100px, 70px 70px, 90px 90px;
+  }
+
+  /* ============ CORRALS (3 horizontal) ============ */
+  .corrals-container {
+    position: absolute; top: 32%; left: 0; right: 0; bottom: 36%;
+    display: flex; gap: 4px; padding: 0 6px; z-index: 5;
+  }
+  .corral {
+    flex: 1; position: relative;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.15), transparent 60%),
+      linear-gradient(180deg, #a8d96a 0%, #7ec240 50%, #5ca828 100%);
+    border-radius: 18px;
+    border: 4px solid #6b3a1c;
+    box-shadow:
+      inset 0 0 0 2px #f5d8a0,
+      inset 0 6px 16px rgba(0,0,0,0.18),
+      0 6px 14px rgba(0,0,0,0.25);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .corral:active { transform: scale(0.98); }
+  .corral::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 2px, transparent 3px),
+      radial-gradient(circle at 65% 50%, rgba(255,255,255,0.3) 1px, transparent 2px),
+      radial-gradient(circle at 40% 75%, rgba(255,255,255,0.35) 2px, transparent 3px),
+      radial-gradient(circle at 85% 20%, rgba(255,255,255,0.3) 1px, transparent 2px);
+    background-size: 60px 60px, 50px 50px, 70px 70px, 55px 55px;
+    pointer-events: none;
+  }
+  .corral-label {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(180deg, #fff, #ffe8b3);
+    padding: 3px 10px; border-radius: 12px;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 11px; color: #5c2c0a;
+    border: 2px solid #d4a04a;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    z-index: 10; white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .corral-deco {
+    position: absolute; pointer-events: none; font-size: 14px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+  }
+
+  /* ============ ANIMALS ============ */
+  .animal {
+    position: absolute; pointer-events: none;
+    transition: transform 0.4s linear, left 1.5s linear, top 1.5s linear;
+    will-change: transform, left, top;
+  }
+  .animal-svg {
+    width: 100%; height: 100%;
+    animation: animal-bob 1.6s ease-in-out infinite;
+  }
+  @keyframes animal-bob {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-2px) rotate(1.5deg); }
+  }
+  .animal-tag {
+    position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(180deg, #ff6b6b, #c53030);
+    color: #fff; font-size: 8px; font-weight: 700;
+    padding: 1px 5px; border-radius: 6px;
+    border: 1.5px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .animal-tag.gold {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a;
+  }
+  .animal-time {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.7); color: #fff;
+    font-size: 7px; padding: 1px 4px; border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* ============ BUILDINGS ROW (bottom) ============ */
+  .buildings-row {
+    position: absolute; left: 0; right: 0; bottom: 90px;
+    display: flex; gap: 4px; padding: 0 6px;
+    z-index: 6; height: 130px;
+  }
+  .building {
+    flex: 1; position: relative; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    transition: transform 0.15s;
+  }
+  .building:active { transform: scale(0.95); }
+  .building-svg { width: 90%; height: 100%; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.35)); }
+  .building-badge {
+    position: absolute; top: 4px; right: 8%;
+    background: linear-gradient(180deg, #ff4757, #c53030);
+    color: #fff; font-weight: 800; font-size: 10px;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff; z-index: 5;
+    animation: badge-pulse 1.3s ease-in-out infinite;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .building-badge.ready {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a;
+    animation: badge-glow 0.8s ease-in-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  @keyframes badge-glow {
+    0%, 100% { transform: scale(1); box-shadow: 0 2px 6px rgba(255,200,0,0.5); }
+    50% { transform: scale(1.2); box-shadow: 0 2px 12px rgba(255,200,0,0.9); }
+  }
+  .building-timer {
+    position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.75); color: #fff;
+    font-size: 9px; font-weight: 700;
+    padding: 1px 6px; border-radius: 8px;
+    white-space: nowrap;
+  }
+  .building-timer.ready {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a;
+    animation: badge-glow 0.8s infinite;
+  }
+
+  /* ============ BOTTOM NAV ============ */
+  .bottom-nav {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(60,30,10,0.95), rgba(40,20,5,0.98));
+    backdrop-filter: blur(10px);
+    border-top: 3px solid #ffcb3d;
+    padding: 6px 4px 8px;
+    z-index: 100;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .nav-row {
+    display: flex; gap: 4px;
+  }
+  .nav-btn {
+    flex: 1; background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 6px 2px;
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .nav-btn:active { transform: scale(0.94); }
+  .nav-btn.active {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    border-color: #fff;
+    box-shadow: 0 0 12px rgba(255,200,0,0.6);
+    color: #5c2c0a;
+  }
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: 9px; font-weight: 700; letter-spacing: 0.3px; }
+  .nav-btn .badge-num {
+    position: absolute;
+    background: #ff4757; color: #fff;
+    min-width: 14px; height: 14px;
+    border-radius: 50%; font-size: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; border: 1.5px solid #fff;
+    margin-top: -2px; margin-left: 18px;
+  }
+
+  /* ============ SCREENS ============ */
+  .screen {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #fff5e1 0%, #ffe8b3 100%);
+    z-index: 200;
+    overflow-y: auto;
+    padding: 12px 12px 90px;
+    display: none;
+  }
+  .screen.active { display: block; }
+  .screen-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px; position: sticky; top: -12px;
+    background: linear-gradient(180deg, #fff5e1, rgba(255,245,225,0.9));
+    padding: 12px 0 8px; z-index: 10;
+    backdrop-filter: blur(6px);
+  }
+  .back-btn {
+    background: linear-gradient(180deg, #fff, #ffe8b3);
+    border: 2px solid #d4a04a;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #5c2c0a;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+  .back-btn:active { transform: scale(0.95); }
+  .screen-title {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 22px; color: #5c2c0a;
+    letter-spacing: 1px;
+    flex: 1;
+  }
+
+  /* ============ SHOP CARDS ============ */
+  .shop-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .shop-card {
+    background: linear-gradient(180deg, #fff 0%, #fff5e1 100%);
+    border: 3px solid #d4a04a;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    position: relative;
+  }
+  .shop-card-img {
+    height: 100px; background: linear-gradient(180deg, #b3e8ff 0%, #c8e89f 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .shop-card-img svg { width: 80px; height: 80px; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2)); }
+  .shop-card-body {
+    padding: 8px 10px 10px;
+  }
+  .shop-card-name {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 15px; color: #5c2c0a;
+    letter-spacing: 0.5px; text-align: center;
+    margin-bottom: 4px;
+  }
+  .shop-card-stats {
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 10px; color: #5c2c0a; opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  .shop-card-stat { display: flex; justify-content: space-between; }
+  .shop-card-stat strong { color: #2d8b1f; }
+  .shop-card-btn {
+    width: 100%;
+    background: linear-gradient(180deg, #7ed957, #3d8b1f);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 6px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #1f5410;
+  }
+  .shop-card-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #1f5410; }
+  .shop-card-btn:disabled {
+    background: linear-gradient(180deg, #aaa, #777);
+    box-shadow: 0 3px 0 #444;
+    cursor: not-allowed;
+  }
+  .shop-card-popular {
+    position: absolute; top: 6px; right: 6px;
+    background: linear-gradient(180deg, #ff4757, #c53030);
+    color: #fff; font-size: 9px; font-weight: 800;
+    padding: 2px 6px; border-radius: 8px;
+    border: 1.5px solid #fff;
+    z-index: 5;
+  }
+
+  .section-title {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 18px; color: #5c2c0a;
+    letter-spacing: 0.5px;
+    margin: 16px 0 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ============ WALLET ============ */
+  .wallet-tabs {
+    display: flex; gap: 6px; margin-bottom: 12px;
+  }
+  .wallet-tab {
+    flex: 1; padding: 10px;
+    background: #fff; border: 2px solid #d4a04a;
+    border-radius: 12px; font-weight: 700; font-size: 13px;
+    color: #5c2c0a; cursor: pointer;
+    font-family: inherit;
+  }
+  .wallet-tab.active {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a; border-color: #fff;
+    box-shadow: 0 3px 8px rgba(255,150,0,0.4);
+  }
+  .wallet-card {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2d5990 100%);
+    border-radius: 16px; padding: 14px;
+    color: #fff; margin-bottom: 12px;
+    border: 2px solid rgba(255,215,0,0.3);
+  }
+  .wallet-label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
+  .wallet-address {
+    background: rgba(0,0,0,0.3); padding: 8px;
+    border-radius: 8px; font-family: monospace;
+    font-size: 11px; word-break: break-all;
+    margin: 6px 0;
+    border: 1px dashed rgba(255,255,255,0.2);
+  }
+  .wallet-btn {
+    width: 100%; padding: 10px;
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a; border: none; border-radius: 10px;
+    font-family: 'Fredoka', sans-serif; font-weight: 700;
+    font-size: 13px; cursor: pointer;
+    margin-top: 6px;
+  }
+  .wallet-info {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; font-size: 12px;
+    border-bottom: 1px dashed rgba(255,255,255,0.15);
+  }
+  .wallet-info:last-child { border: none; }
+  .action-btns { display: flex; gap: 8px; margin-top: 10px; }
+  .action-btn {
+    flex: 1; padding: 12px;
+    border: 2px solid #fff; border-radius: 12px;
+    color: #fff; font-weight: 700; font-size: 14px;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+  }
+  .action-btn.deposit {
+    background: linear-gradient(180deg, #7ed957, #3d8b1f);
+    box-shadow: 0 3px 0 #1f5410;
+  }
+  .action-btn.withdraw {
+    background: linear-gradient(180deg, #ff8c42, #c53030);
+    box-shadow: 0 3px 0 #7a1818;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 500; display: none;
+    align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: linear-gradient(180deg, #fff5e1, #ffe8b3);
+    border: 3px solid #d4a04a;
+    border-radius: 20px;
+    padding: 18px;
+    width: 100%; max-width: 360px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    animation: modal-in 0.3s ease-out;
+  }
+  @keyframes modal-in {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal h2 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 22px; color: #5c2c0a;
+    text-align: center; margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+  .modal input, .modal select {
+    width: 100%; padding: 10px;
+    border: 2px solid #d4a04a; border-radius: 10px;
+    font-family: inherit; font-size: 13px;
+    background: #fff; margin-bottom: 8px;
+  }
+  .modal label { font-size: 12px; font-weight: 700; color: #5c2c0a; display: block; margin-bottom: 4px; }
+  .modal-btns { display: flex; gap: 8px; margin-top: 12px; }
+
+  /* ============ FRIENDS / REFERRALS ============ */
+  .ref-card {
+    background: linear-gradient(135deg, #ff9b1c 0%, #ffd700 100%);
+    border-radius: 16px; padding: 14px; color: #5c2c0a;
+    border: 3px solid #fff; box-shadow: 0 4px 10px rgba(255,150,0,0.4);
+    margin-bottom: 12px;
+  }
+  .ref-link {
+    background: rgba(0,0,0,0.15); padding: 8px;
+    border-radius: 8px; font-family: monospace;
+    font-size: 12px; word-break: break-all;
+    margin: 6px 0;
+  }
+  .ref-tiers {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    margin: 10px 0;
+  }
+  .ref-tier {
+    background: #fff; border: 2px solid #d4a04a;
+    border-radius: 12px; padding: 8px; text-align: center;
+  }
+  .ref-tier-pct { font-family: 'Luckiest Guy', cursive; font-size: 18px; color: #ff9b1c; }
+  .ref-tier-label { font-size: 10px; color: #5c2c0a; font-weight: 700; }
+  .ref-stats {
+    background: #fff; border: 2px solid #d4a04a;
+    border-radius: 12px; padding: 10px;
+    margin-top: 8px;
+  }
+  .ref-stat-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; font-size: 13px;
+    border-bottom: 1px dashed #d4a04a44;
+  }
+  .ref-stat-row:last-child { border: none; }
+  .ref-stat-row strong { color: #2d8b1f; }
+
+  /* ============ LOGIN DAILY ============ */
+  .daily-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+  }
+  .daily-cell {
+    background: #fff; border: 2px solid #d4a04a;
+    border-radius: 12px; padding: 8px 4px;
+    text-align: center; position: relative;
+    aspect-ratio: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .daily-cell.claimed {
+    background: linear-gradient(180deg, #7ed957, #3d8b1f);
+    color: #fff; border-color: #fff;
+  }
+  .daily-cell.today {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    border-color: #fff;
+    animation: badge-glow 1s infinite;
+    cursor: pointer;
+  }
+  .daily-day { font-family: 'Luckiest Guy', cursive; font-size: 14px; }
+  .daily-amount { font-size: 11px; font-weight: 700; }
+
+  /* ============ TOAST ============ */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    color: #5c2c0a; font-weight: 700;
+    padding: 10px 18px; border-radius: 14px;
+    border: 2px solid #fff; box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    z-index: 1000; opacity: 0; pointer-events: none;
+    transition: all 0.3s; font-size: 13px;
+    text-align: center; max-width: 80%;
+  }
+  .toast.show {
+    opacity: 1; transform: translateX(-50%) translateY(-10px);
+  }
+  .toast.gold {
+    background: linear-gradient(180deg, #fffbe0, #ffd700);
+    box-shadow: 0 6px 18px rgba(255,200,0,0.6);
+  }
+
+  /* ============ LOGIN SCREEN ============ */
+  #login-screen {
+    position: absolute; inset: 0; z-index: 1000;
+    background: linear-gradient(180deg, #87ceeb 0%, #c8e89f 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .login-box {
+    background: linear-gradient(180deg, #fff5e1, #ffe8b3);
+    border: 4px solid #d4a04a;
+    border-radius: 24px;
+    padding: 22px;
+    width: 100%; max-width: 360px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+  .login-title {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 32px; text-align: center;
+    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 60%, #c2410c 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 3px 0 rgba(0,0,0,0.15);
+    margin-bottom: 4px;
+  }
+  .login-sub {
+    text-align: center; font-size: 11px; letter-spacing: 2px;
+    color: #5c2c0a; font-weight: 600; margin-bottom: 14px;
+  }
+  .login-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .login-tab {
+    flex: 1; padding: 8px; background: #fff;
+    border: 2px solid #d4a04a; border-radius: 10px;
+    font-weight: 700; cursor: pointer; font-family: inherit;
+    color: #5c2c0a;
+  }
+  .login-tab.active {
+    background: linear-gradient(180deg, #ffd700, #ff9b1c);
+    border-color: #fff;
+  }
+  .login-box input {
+    width: 100%; padding: 11px; margin-bottom: 8px;
+    border: 2px solid #d4a04a; border-radius: 10px;
+    font-family: inherit; font-size: 14px; background: #fff;
+  }
+  .login-btn {
+    width: 100%; padding: 12px;
+    background: linear-gradient(180deg, #7ed957, #3d8b1f);
+    color: #fff; border: 2px solid #fff;
+    border-radius: 12px; font-family: 'Fredoka', sans-serif;
+    font-weight: 700; font-size: 16px; cursor: pointer;
+    box-shadow: 0 4px 0 #1f5410;
+  }
+  .login-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1f5410; }
+  .login-tagline {
+    text-align: center; font-size: 11px;
+    color: #5c2c0a; opacity: 0.7; margin-top: 10px;
+  }
+
+  /* ============ HISTORY LIST ============ */
+  .history-item {
+    background: #fff; border: 2px solid #d4a04a;
+    border-radius: 12px; padding: 10px 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px; font-size: 13px;
+  }
+  .history-amount.in { color: #2d8b1f; font-weight: 700; }
+  .history-amount.out { color: #c53030; font-weight: 700; }
+
+  /* ============ SCROLLBAR ============ */
+  .screen::-webkit-scrollbar { width: 6px; }
+  .screen::-webkit-scrollbar-thumb { background: #d4a04a; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-title">PORCANA GREEN</div>
+    <div class="login-sub">★ MADE IN URUGUAY ★</div>
+    <div class="login-tabs">
+      <button class="login-tab active" data-tab="login">Iniciar sesión</button>
+      <button class="login-tab" data-tab="register">Registrarse</button>
+    </div>
+    <div id="form-login">
+      <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email">
+      <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password">
+      <button class="login-btn" onclick="doLogin()">Entrar a la granja 🚜</button>
+    </div>
+    <div id="form-register" style="display:none">
+      <input type="text" id="reg-name" placeholder="Nombre del granjero">
+      <input type="email" id="reg-email" placeholder="Correo electrónico">
+      <input type="password" id="reg-pass" placeholder="Contraseña">
+      <input type="text" id="reg-ref" placeholder="Código referido (opcional)">
+      <button class="login-btn" onclick="doRegister()">Crear granja 🌱</button>
+    </div>
+    <div class="login-tagline">Cría animales · Genera USDT · Retira a tu billetera</div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app" style="display:none">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo-wrap">
+      <div class="logo">PORCANA GREEN</div>
+      <div class="logo-sub">★ Made In Uruguay ★</div>
+    </div>
+    <div class="top-row">
+      <div class="player-chip">
+        <div class="player-avatar">🧑‍🌾</div>
+        <div class="player-info">
+          <span class="player-name" id="player-name">Granjero</span>
+          <span class="player-id" id="player-id">ID #0000</span>
+        </div>
+      </div>
+      <div class="balance-card">
+        <span class="balance-icon">💰</span>
+        <div>
+          <div class="balance-amount" id="balance-amount">0.00</div>
+          <div class="balance-currency">USDT</div>
+        </div>
+      </div>
+      <div class="animals-pill" id="animals-pill"></div>
+    </div>
+  </div>
+
+  <!-- FARM SCENE -->
+  <div class="farm-scene">
+    <div class="sky-bg"></div>
+    <!-- SUN -->
+    <svg class="sun" width="60" height="60" viewBox="0 0 60 60">
+      <defs>
+        <radialGradient id="sun-grad" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#fffbe0"/>
+          <stop offset="60%" stop-color="#ffd700"/>
+          <stop offset="100%" stop-color="#ff9b1c"/>
+        </radialGradient>
+      </defs>
+      <circle cx="30" cy="30" r="20" fill="url(#sun-grad)" stroke="#ff9b1c" stroke-width="1.5"/>
+      <g stroke="#ffcb3d" stroke-width="2.5" stroke-linecap="round" opacity="0.85">
+        <line x1="30" y1="2" x2="30" y2="8"/>
+        <line x1="30" y1="52" x2="30" y2="58"/>
+        <line x1="2" y1="30" x2="8" y2="30"/>
+        <line x1="52" y1="30" x2="58" y2="30"/>
+        <line x1="10" y1="10" x2="14" y2="14"/>
+        <line x1="46" y1="46" x2="50" y2="50"/>
+        <line x1="10" y1="50" x2="14" y2="46"/>
+        <line x1="46" y1="14" x2="50" y2="10"/>
+      </g>
+      <circle cx="24" cy="26" r="2" fill="#5c2c0a" opacity="0.7"/>
+      <circle cx="36" cy="26" r="2" fill="#5c2c0a" opacity="0.7"/>
+      <path d="M 24 34 Q 30 38 36 34" fill="none" stroke="#5c2c0a" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+
+    <!-- CLOUDS -->
+    <div class="clouds">
+      <svg class="cloud cloud-1" width="100" height="50" viewBox="0 0 100 50">
+        <ellipse cx="25" cy="30" rx="20" ry="15" fill="#fff"/>
+        <ellipse cx="50" cy="22" rx="25" ry="18" fill="#fff"/>
+        <ellipse cx="75" cy="30" rx="22" ry="15" fill="#fff"/>
+      </svg>
+      <svg class="cloud cloud-2" width="90" height="45" viewBox="0 0 100 50">
+        <ellipse cx="25" cy="30" rx="20" ry="15" fill="#fff"/>
+        <ellipse cx="55" cy="22" rx="22" ry="16" fill="#fff"/>
+        <ellipse cx="78" cy="30" rx="18" ry="13" fill="#fff"/>
+      </svg>
+      <svg class="cloud cloud-3" width="80" height="40" viewBox="0 0 100 50">
+        <ellipse cx="30" cy="28" rx="22" ry="16" fill="#fff"/>
+        <ellipse cx="60" cy="24" rx="20" ry="15" fill="#fff"/>
+      </svg>
+    </div>
+
+    <div class="ground"></div>
+
+    <!-- 3 CORRALS HORIZONTAL -->
+    <div class="corrals-container">
+      <div class="corral" id="corral-cows" data-type="cow">
+        <div class="corral-label">🐄 VACAS</div>
+      </div>
+      <div class="corral" id="corral-chickens" data-type="chicken">
+        <div class="corral-label">🐔 GALLINERO</div>
+      </div>
+      <div class="corral" id="corral-pigs" data-type="pig">
+        <div class="corral-label">🐖 CERDOS</div>
+      </div>
+    </div>
+
+    <!-- BUILDINGS -->
+    <div class="buildings-row">
+      <div class="building" id="building-stable" onclick="claimProduction('cow')">
+        <svg class="building-svg" viewBox="0 0 100 130">
+          <!-- Establo -->
+          <defs>
+            <linearGradient id="stable-wall" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a8c8e0"/>
+              <stop offset="100%" stop-color="#6890b0"/>
+            </linearGradient>
+            <linearGradient id="stable-roof" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5a7a98"/>
+              <stop offset="100%" stop-color="#2d4a68"/>
+            </linearGradient>
+          </defs>
+          <!-- Cuerpo -->
+          <rect x="15" y="55" width="70" height="65" rx="3" fill="url(#stable-wall)" stroke="#3d5a78" stroke-width="2"/>
+          <!-- Techo -->
+          <polygon points="10,55 50,20 90,55" fill="url(#stable-roof)" stroke="#1d3548" stroke-width="2"/>
+          <polygon points="10,55 50,20 90,55" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+          <!-- Líneas techo -->
+          <line x1="20" y1="50" x2="50" y2="25" stroke="#1d3548" stroke-width="1" opacity="0.6"/>
+          <line x1="30" y1="45" x2="50" y2="28" stroke="#1d3548" stroke-width="1" opacity="0.6"/>
+          <line x1="40" y1="40" x2="50" y2="32" stroke="#1d3548" stroke-width="1" opacity="0.6"/>
+          <!-- Puerta -->
+          <rect x="38" y="80" width="24" height="40" rx="3" fill="#5c3a1c" stroke="#2d1b0a" stroke-width="2"/>
+          <rect x="40" y="82" width="20" height="36" rx="2" fill="none" stroke="#2d1b0a" stroke-width="1"/>
+          <circle cx="56" cy="100" r="1.5" fill="#ffd700"/>
+          <!-- Ventana redonda -->
+          <circle cx="50" cy="40" r="6" fill="#ffd700" stroke="#2d1b0a" stroke-width="1.5"/>
+          <line x1="44" y1="40" x2="56" y2="40" stroke="#2d1b0a" stroke-width="1"/>
+          <line x1="50" y1="34" x2="50" y2="46" stroke="#2d1b0a" stroke-width="1"/>
+          <!-- Ventanas laterales -->
+          <rect x="22" y="68" width="10" height="10" fill="#ffd700" stroke="#2d1b0a" stroke-width="1"/>
+          <rect x="68" y="68" width="10" height="10" fill="#ffd700" stroke="#2d1b0a" stroke-width="1"/>
+          <!-- Letrero -->
+          <rect x="32" y="62" width="36" height="10" rx="2" fill="#fff5e1" stroke="#5c3a1c" stroke-width="1"/>
+          <text x="50" y="69.5" font-family="Luckiest Guy, cursive" font-size="7" fill="#5c2c0a" text-anchor="middle">ESTABLO</text>
+          <!-- Cubeta de leche -->
+          <ellipse cx="20" cy="118" rx="6" ry="2" fill="#888" opacity="0.5"/>
+          <path d="M 14 110 L 16 118 L 24 118 L 26 110 Z" fill="#c0c0c0" stroke="#666" stroke-width="0.8"/>
+          <ellipse cx="20" cy="110" rx="6" ry="1.5" fill="#fff"/>
+        </svg>
+        <div class="building-badge ready" id="badge-cow" style="display:none">!</div>
+        <div class="building-timer" id="timer-cow">12h 00m</div>
+      </div>
+
+      <div class="building" id="building-coop" onclick="claimProduction('chicken')">
+        <svg class="building-svg" viewBox="0 0 100 130">
+          <defs>
+            <linearGradient id="coop-wall" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e85d5d"/>
+              <stop offset="100%" stop-color="#a82828"/>
+            </linearGradient>
+            <linearGradient id="coop-roof" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5c3a1c"/>
+              <stop offset="100%" stop-color="#2d1b0a"/>
+            </linearGradient>
+          </defs>
+          <!-- Cuerpo -->
+          <rect x="15" y="55" width="70" height="65" rx="3" fill="url(#coop-wall)" stroke="#5c1010" stroke-width="2"/>
+          <!-- Tablas verticales -->
+          <line x1="30" y1="55" x2="30" y2="120" stroke="#7c1010" stroke-width="1" opacity="0.5"/>
+          <line x1="50" y1="55" x2="50" y2="80" stroke="#7c1010" stroke-width="1" opacity="0.5"/>
+          <line x1="70" y1="55" x2="70" y2="120" stroke="#7c1010" stroke-width="1" opacity="0.5"/>
+          <!-- Techo -->
+          <polygon points="10,55 50,20 90,55" fill="url(#coop-roof)" stroke="#1a0d05" stroke-width="2"/>
+          <line x1="50" y1="20" x2="50" y2="55" stroke="#1a0d05" stroke-width="1.5"/>
+          <!-- Tejas -->
+          <line x1="20" y1="48" x2="80" y2="48" stroke="#fff" stroke-width="0.6" opacity="0.3"/>
+          <line x1="25" y1="42" x2="75" y2="42" stroke="#fff" stroke-width="0.6" opacity="0.3"/>
+          <line x1="30" y1="36" x2="70" y2="36" stroke="#fff" stroke-width="0.6" opacity="0.3"/>
+          <!-- Veleta gallo -->
+          <line x1="50" y1="20" x2="50" y2="10" stroke="#2d1b0a" stroke-width="1.5"/>
+          <path d="M 46 8 Q 50 5 54 10 Q 50 12 46 8 Z" fill="#ffcb3d" stroke="#2d1b0a" stroke-width="0.8"/>
+          <!-- Puerta arqueada -->
+          <path d="M 38 120 L 38 88 Q 38 78 50 78 Q 62 78 62 88 L 62 120 Z" fill="#5c3a1c" stroke="#2d1b0a" stroke-width="2"/>
+          <path d="M 40 118 L 40 88 Q 40 80 50 80 Q 60 80 60 88 L 60 118 Z" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="56" cy="100" r="1.5" fill="#ffd700"/>
+          <!-- Letrero -->
+          <rect x="28" y="62" width="44" height="11" rx="2" fill="#fff5e1" stroke="#5c3a1c" stroke-width="1"/>
+          <text x="50" y="70" font-family="Luckiest Guy, cursive" font-size="7" fill="#5c2c0a" text-anchor="middle">GALLINERO</text>
+          <!-- Huevo decorativo -->
+          <ellipse cx="22" cy="118" rx="4" ry="5" fill="#fff5e1" stroke="#d4a04a" stroke-width="1"/>
+        </svg>
+        <div class="building-badge ready" id="badge-chicken" style="display:none">!</div>
+        <div class="building-timer" id="timer-chicken">12h 00m</div>
+      </div>
+
+      <div class="building" id="building-pen" onclick="claimProduction('pig')">
+        <svg class="building-svg" viewBox="0 0 100 130">
+          <defs>
+            <linearGradient id="pen-wall" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#d4a07a"/>
+              <stop offset="100%" stop-color="#8b5a3c"/>
+            </linearGradient>
+            <linearGradient id="pen-roof" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff7eb3"/>
+              <stop offset="100%" stop-color="#c5417a"/>
+            </linearGradient>
+          </defs>
+          <!-- Cuerpo -->
+          <rect x="15" y="55" width="70" height="65" rx="3" fill="url(#pen-wall)" stroke="#5c3a1c" stroke-width="2"/>
+          <!-- Tablones de madera -->
+          <line x1="15" y1="68" x2="85" y2="68" stroke="#5c3a1c" stroke-width="0.8" opacity="0.4"/>
+          <line x1="15" y1="82" x2="85" y2="82" stroke="#5c3a1c" stroke-width="0.8" opacity="0.4"/>
+          <line x1="15" y1="96" x2="85" y2="96" stroke="#5c3a1c" stroke-width="0.8" opacity="0.4"/>
+          <line x1="15" y1="110" x2="85" y2="110" stroke="#5c3a1c" stroke-width="0.8" opacity="0.4"/>
+          <!-- Techo -->
+          <polygon points="10,55 50,20 90,55" fill="url(#pen-roof)" stroke="#7d2050" stroke-width="2"/>
+          <!-- Detalle techo -->
+          <ellipse cx="50" cy="38" rx="14" ry="8" fill="#ff9bcb" opacity="0.4"/>
+          <!-- Puerta -->
+          <rect x="38" y="80" width="24" height="40" rx="3" fill="#5c3a1c" stroke="#2d1b0a" stroke-width="2"/>
+          <line x1="50" y1="82" x2="50" y2="118" stroke="#2d1b0a" stroke-width="1"/>
+          <circle cx="44" cy="100" r="1.2" fill="#ffd700"/>
+          <circle cx="56" cy="100" r="1.2" fill="#ffd700"/>
+          <!-- Ventanas -->
+          <rect x="22" y="62" width="10" height="10" rx="1" fill="#ffd700" stroke="#2d1b0a" stroke-width="1"/>
+          <rect x="68" y="62" width="10" height="10" rx="1" fill="#ffd700" stroke="#2d1b0a" stroke-width="1"/>
+          <!-- Letrero corazón -->
+          <rect x="32" y="62" width="36" height="10" rx="2" fill="#fff5e1" stroke="#5c3a1c" stroke-width="1"/>
+          <text x="50" y="69.5" font-family="Luckiest Guy, cursive" font-size="7" fill="#5c2c0a" text-anchor="middle">POCILGA</text>
+          <!-- Mazorca decorativa -->
+          <ellipse cx="22" cy="116" rx="3" ry="6" fill="#ffcb3d" stroke="#5c3a1c" stroke-width="0.6"/>
+          <line x1="22" y1="111" x2="22" y2="121" stroke="#3d8b1f" stroke-width="0.8"/>
+        </svg>
+        <div class="building-badge ready" id="badge-pig" style="display:none">!</div>
+        <div class="building-timer" id="timer-pig">12h 00m</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREENS ============ -->
+  <div class="screen" id="screen-shop">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">🛒 TIENDA</div>
+    </div>
+    <div id="shop-content"></div>
+  </div>
+
+  <div class="screen" id="screen-friends">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">👥 AMIGOS</div>
+    </div>
+    <div id="friends-content"></div>
+  </div>
+
+  <div class="screen" id="screen-wallet">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">💼 BILLETERA</div>
+    </div>
+    <div id="wallet-content"></div>
+  </div>
+
+  <div class="screen" id="screen-daily">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">📅 LOGIN DIARIO</div>
+    </div>
+    <div id="daily-content"></div>
+  </div>
+
+  <div class="screen" id="screen-messages">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">💬 MENSAJES</div>
+    </div>
+    <div id="messages-content"></div>
+  </div>
+
+  <div class="screen" id="screen-vip">
+    <div class="screen-header">
+      <button class="back-btn" onclick="closeScreen()">← VOLVER</button>
+      <div class="screen-title">⭐ VIP</div>
+    </div>
+    <div id="vip-content"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-row">
+      <button class="nav-btn active" id="nav-farm" onclick="closeScreen()">
+        <span class="nav-icon">🏡</span>
+        <span class="nav-label">GRANJA</span>
+      </button>
+      <button class="nav-btn" onclick="openScreen('shop')">
+        <span class="nav-icon">🛒</span>
+        <span class="nav-label">TIENDA</span>
+      </button>
+      <button class="nav-btn" onclick="openScreen('friends')">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">AMIGOS</span>
+      </button>
+      <button class="nav-btn" onclick="openScreen('wallet')">
+        <span class="nav-icon">💼</span>
+        <span class="nav-label">BILLETERA</span>
+      </button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="openScreen('daily')">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">DIARIO</span>
+      </button>
+      <button class="nav-btn" onclick="openScreen('messages')">
+        <span class="nav-icon">💬</span>
+        <span class="nav-label">MENSAJES</span>
+      </button>
+      <button class="nav-btn" onclick="openScreen('vip')">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label">VIP</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" id="modal-body"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// SVG ANIMALS — Cartoon premium hechos a mano (estilo Hay Day)
+// ============================================================
+const ANIMAL_SVG = {
+  // ----- GALLINA (blanca, hembra) -----
+  chicken: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="chick-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="60%" stop-color="#f5f5f5"/>
+          <stop offset="100%" stop-color="#dcdcdc"/>
+        </radialGradient>
+        <radialGradient id="chick-belly-${id}" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#fff"/>
+          <stop offset="100%" stop-color="#e8e8e8"/>
+        </radialGradient>
+      </defs>
+      <!-- Sombra -->
+      <ellipse cx="50" cy="92" rx="22" ry="3" fill="rgba(0,0,0,0.25)"/>
+      <!-- Cuerpo -->
+      <ellipse cx="50" cy="62" rx="26" ry="22" fill="url(#chick-body-${id})" stroke="#999" stroke-width="1"/>
+      <!-- Ala -->
+      <ellipse cx="36" cy="60" rx="10" ry="13" fill="#e8e8e8" stroke="#aaa" stroke-width="0.8" transform="rotate(-15 36 60)">
+        <animateTransform attributeName="transform" type="rotate" values="-15 36 60; -8 36 60; -15 36 60" dur="2.4s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Cola -->
+      <path d="M 72 55 Q 84 48 82 62 Q 78 68 72 65 Z" fill="#f0f0f0" stroke="#aaa" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 72 60; 6 72 60; 0 72 60; -3 72 60; 0 72 60" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- Cabeza -->
+      <circle cx="50" cy="36" r="16" fill="url(#chick-body-${id})" stroke="#999" stroke-width="1"/>
+      <!-- Cresta (3 picos) -->
+      <path d="M 42 22 Q 44 14 48 22 Q 50 16 52 22 Q 54 14 58 22 Q 56 26 50 26 Q 44 26 42 22 Z" fill="#ff4757" stroke="#a82828" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1; 0 0" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <!-- Mejilla rosada -->
+      <ellipse cx="42" cy="42" rx="3" ry="2" fill="#ffb3d1" opacity="0.6"/>
+      <ellipse cx="58" cy="42" rx="3" ry="2" fill="#ffb3d1" opacity="0.6"/>
+      <!-- Ojos -->
+      <circle cx="44" cy="34" r="3" fill="#fff"/>
+      <circle cx="56" cy="34" r="3" fill="#fff"/>
+      <circle cx="45" cy="35" r="2" fill="#2d1b0a">
+        <animate attributeName="ry" values="2;0.3;2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="57" cy="35" r="2" fill="#2d1b0a">
+        <animate attributeName="ry" values="2;0.3;2" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45.5" cy="34.5" r="0.7" fill="#fff"/>
+      <circle cx="57.5" cy="34.5" r="0.7" fill="#fff"/>
+      <!-- Pico -->
+      <path d="M 48 43 L 50 48 L 52 43 Z" fill="#ffaa1c" stroke="#cc7700" stroke-width="0.6"/>
+      <!-- Barba -->
+      <ellipse cx="50" cy="50" rx="3" ry="3" fill="#ff4757" stroke="#a82828" stroke-width="0.6"/>
+      <!-- Patas -->
+      <line x1="44" y1="82" x2="42" y2="92" stroke="#ffaa1c" stroke-width="2.2" stroke-linecap="round">
+        <animate attributeName="x2" values="42;43;41;42" dur="0.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="56" y1="82" x2="58" y2="92" stroke="#ffaa1c" stroke-width="2.2" stroke-linecap="round">
+        <animate attributeName="x2" values="58;57;59;58" dur="0.6s" repeatCount="indefinite"/>
+      </line>
+      <!-- Garras -->
+      <path d="M 38 92 L 42 92 L 46 92" stroke="#cc7700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M 54 92 L 58 92 L 62 92" stroke="#cc7700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
+  `,
+  // ----- GALLO (negro con cresta roja, macho) -----
+  rooster: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rooster-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#5a5a5a"/>
+          <stop offset="60%" stop-color="#2d2d2d"/>
+          <stop offset="100%" stop-color="#1a1a1a"/>
+        </radialGradient>
+        <linearGradient id="rooster-tail-${id}" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2d6a4f"/>
+          <stop offset="40%" stop-color="#1d4ed8"/>
+          <stop offset="80%" stop-color="#9333ea"/>
+          <stop offset="100%" stop-color="#dc2626"/>
+        </linearGradient>
+      </defs>
+      <!-- Sombra -->
+      <ellipse cx="50" cy="92" rx="24" ry="3" fill="rgba(0,0,0,0.3)"/>
+      <!-- Cola colorida espectacular -->
+      <path d="M 70 58 Q 88 38 86 60 Q 92 50 90 68 Q 88 56 84 70 Z" fill="url(#rooster-tail-${id})" stroke="#1a1a1a" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 70 60; 8 70 60; 0 70 60; -4 70 60; 0 70 60" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 72 55 Q 90 32 88 50" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" opacity="0.9">
+        <animateTransform attributeName="transform" type="rotate" values="0 72 55; 6 72 55; 0 72 55" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+      <!-- Cuerpo -->
+      <ellipse cx="50" cy="62" rx="26" ry="22" fill="url(#rooster-body-${id})" stroke="#0a0a0a" stroke-width="1"/>
+      <!-- Pecho destellos -->
+      <ellipse cx="50" cy="68" rx="14" ry="10" fill="#3a3a3a" opacity="0.6"/>
+      <!-- Ala -->
+      <ellipse cx="36" cy="60" rx="10" ry="13" fill="#1a1a1a" stroke="#000" stroke-width="0.8" transform="rotate(-15 36 60)">
+        <animateTransform attributeName="transform" type="rotate" values="-15 36 60; -8 36 60; -15 36 60" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Plumas ala -->
+      <path d="M 28 58 L 36 56 M 28 62 L 36 60 M 28 66 L 36 64" stroke="#3a3a3a" stroke-width="0.6"/>
+      <!-- Cabeza -->
+      <circle cx="50" cy="36" r="16" fill="url(#rooster-body-${id})" stroke="#0a0a0a" stroke-width="1"/>
+      <!-- Cresta GRANDE de gallo (5 picos) -->
+      <path d="M 38 22 Q 40 10 44 20 Q 46 8 50 18 Q 52 6 56 18 Q 58 10 60 22 Q 62 14 64 22 Q 60 28 50 28 Q 40 28 38 22 Z" fill="#ff4757" stroke="#7a1818" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1.5; 0 0" dur="1.5s" repeatCount="indefinite"/>
+      </path>
+      <!-- Brillo cresta -->
+      <path d="M 42 18 Q 46 14 48 18" fill="none" stroke="#ff8a8a" stroke-width="0.8" opacity="0.7"/>
+      <!-- Ojos feroces -->
+      <circle cx="44" cy="34" r="3.2" fill="#fff"/>
+      <circle cx="56" cy="34" r="3.2" fill="#fff"/>
+      <circle cx="45" cy="35" r="2" fill="#1a1a1a">
+        <animate attributeName="ry" values="2;0.3;2" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="57" cy="35" r="2" fill="#1a1a1a">
+        <animate attributeName="ry" values="2;0.3;2" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="45.5" cy="34.5" r="0.7" fill="#fff"/>
+      <circle cx="57.5" cy="34.5" r="0.7" fill="#fff"/>
+      <!-- Pico amarillo -->
+      <path d="M 47 42 L 50 50 L 53 42 Z" fill="#ffaa1c" stroke="#cc7700" stroke-width="0.6"/>
+      <!-- Barba/papada doble -->
+      <ellipse cx="46" cy="51" rx="2.5" ry="3" fill="#ff4757" stroke="#7a1818" stroke-width="0.5"/>
+      <ellipse cx="54" cy="51" rx="2.5" ry="3" fill="#ff4757" stroke="#7a1818" stroke-width="0.5"/>
+      <!-- Patas -->
+      <line x1="44" y1="82" x2="42" y2="92" stroke="#ffaa1c" stroke-width="2.4" stroke-linecap="round">
+        <animate attributeName="x2" values="42;43;41;42" dur="0.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="56" y1="82" x2="58" y2="92" stroke="#ffaa1c" stroke-width="2.4" stroke-linecap="round">
+        <animate attributeName="x2" values="58;57;59;58" dur="0.5s" repeatCount="indefinite"/>
+      </line>
+      <!-- Espolones -->
+      <path d="M 40 88 L 38 90" stroke="#cc7700" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 60 88 L 62 90" stroke="#cc7700" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Garras -->
+      <path d="M 38 92 L 42 92 L 46 92" stroke="#cc7700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M 54 92 L 58 92 L 62 92" stroke="#cc7700" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
+  `,
+  // ----- CERDA (rosa) -----
+  sow: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sow-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#ffd0e0"/>
+          <stop offset="60%" stop-color="#ff9bbc"/>
+          <stop offset="100%" stop-color="#e87aa1"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="92" rx="26" ry="3" fill="rgba(0,0,0,0.25)"/>
+      <!-- Cuerpo redondo -->
+      <ellipse cx="50" cy="58" rx="30" ry="22" fill="url(#sow-body-${id})" stroke="#c0507a" stroke-width="1.2"/>
+      <!-- Patas (4) -->
+      <rect x="28" y="72" width="6" height="14" rx="2" fill="#e87aa1" stroke="#a04060" stroke-width="0.8">
+        <animate attributeName="y" values="72;74;72" dur="0.8s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="40" y="74" width="6" height="14" rx="2" fill="#e87aa1" stroke="#a04060" stroke-width="0.8">
+        <animate attributeName="y" values="74;72;74" dur="0.8s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="54" y="74" width="6" height="14" rx="2" fill="#e87aa1" stroke="#a04060" stroke-width="0.8">
+        <animate attributeName="y" values="74;72;74" dur="0.8s" repeatCount="indefinite" begin="0.4s"/>
+      </rect>
+      <rect x="66" y="72" width="6" height="14" rx="2" fill="#e87aa1" stroke="#a04060" stroke-width="0.8">
+        <animate attributeName="y" values="72;74;72" dur="0.8s" repeatCount="indefinite" begin="0.4s"/>
+      </rect>
+      <!-- Cola enrulada -->
+      <path d="M 78 54 Q 88 50 86 58 Q 82 62 80 60" fill="none" stroke="#c0507a" stroke-width="2.2" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0 78 56; 15 78 56; 0 78 56; -10 78 56; 0 78 56" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <!-- Cabeza -->
+      <ellipse cx="32" cy="50" rx="15" ry="13" fill="url(#sow-body-${id})" stroke="#c0507a" stroke-width="1.2"/>
+      <!-- Hocico -->
+      <ellipse cx="22" cy="54" rx="8" ry="6" fill="#ffb3d1" stroke="#c0507a" stroke-width="1"/>
+      <ellipse cx="22" cy="54" rx="8" ry="6" fill="none" stroke="#c0507a" stroke-width="0.5" opacity="0.4"/>
+      <!-- Fosas nasales -->
+      <ellipse cx="19" cy="52" rx="1.2" ry="2" fill="#7a3050"/>
+      <ellipse cx="19" cy="56" rx="1.2" ry="2" fill="#7a3050"/>
+      <!-- Orejas (caídas hacia adelante) -->
+      <path d="M 26 38 Q 22 28 30 32 Z" fill="#e87aa1" stroke="#c0507a" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 28 35; -5 28 35; 0 28 35" dur="1.5s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 38 38 Q 36 28 42 34 Z" fill="#e87aa1" stroke="#c0507a" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 40 35; 5 40 35; 0 40 35" dur="1.5s" repeatCount="indefinite" begin="0.3s"/>
+      </path>
+      <!-- Ojos -->
+      <circle cx="30" cy="48" r="2.5" fill="#fff"/>
+      <circle cx="30.8" cy="48.5" r="1.6" fill="#2d1b0a">
+        <animate attributeName="ry" values="1.6;0.3;1.6" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="31.2" cy="48" r="0.5" fill="#fff"/>
+      <!-- Ceja sonriente -->
+      <path d="M 27 44 Q 30 43 33 45" stroke="#c0507a" stroke-width="0.8" fill="none" opacity="0.6"/>
+      <!-- Sonrisa -->
+      <path d="M 28 58 Q 30 60 32 58" stroke="#a04060" stroke-width="0.8" fill="none"/>
+      <!-- Mejilla -->
+      <ellipse cx="36" cy="54" rx="3" ry="2" fill="#ff8ab0" opacity="0.5"/>
+    </svg>
+  `,
+  // ----- CERDO (negro/oscuro, macho) -----
+  boar: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="boar-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#5a4a40"/>
+          <stop offset="60%" stop-color="#3a2a20"/>
+          <stop offset="100%" stop-color="#1f1410"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="92" rx="28" ry="3" fill="rgba(0,0,0,0.35)"/>
+      <!-- Cuerpo más robusto -->
+      <ellipse cx="50" cy="58" rx="32" ry="23" fill="url(#boar-body-${id})" stroke="#0d0805" stroke-width="1.2"/>
+      <!-- Cresta de pelos en el lomo -->
+      <path d="M 40 38 L 42 32 L 44 38 L 46 30 L 48 38 L 50 30 L 52 38 L 54 30 L 56 38 L 58 32 L 60 38" 
+            fill="none" stroke="#1a1410" stroke-width="1.5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="translate" values="0 0; 0 -0.5; 0 0" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+      <!-- Patas -->
+      <rect x="28" y="74" width="7" height="14" rx="2" fill="#2a1f15" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.7s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="40" y="76" width="7" height="14" rx="2" fill="#2a1f15" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.7s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="54" y="76" width="7" height="14" rx="2" fill="#2a1f15" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.7s" repeatCount="indefinite" begin="0.35s"/>
+      </rect>
+      <rect x="66" y="74" width="7" height="14" rx="2" fill="#2a1f15" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.7s" repeatCount="indefinite" begin="0.35s"/>
+      </rect>
+      <!-- Cola corta -->
+      <path d="M 80 54 Q 88 52 86 58" fill="none" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0 80 56; 12 80 56; 0 80 56" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+      <!-- Cabeza más larga -->
+      <ellipse cx="32" cy="50" rx="17" ry="14" fill="url(#boar-body-${id})" stroke="#0d0805" stroke-width="1.2"/>
+      <!-- Hocico -->
+      <ellipse cx="20" cy="54" rx="9" ry="6" fill="#3a2a20" stroke="#0d0805" stroke-width="1"/>
+      <!-- Fosas nasales -->
+      <ellipse cx="17" cy="52" rx="1.2" ry="2" fill="#000"/>
+      <ellipse cx="17" cy="56" rx="1.2" ry="2" fill="#000"/>
+      <!-- Colmillos blancos prominentes -->
+      <path d="M 14 56 L 12 64 L 16 60 Z" fill="#fff" stroke="#888" stroke-width="0.6"/>
+      <path d="M 26 56 L 28 64 L 24 60 Z" fill="#fff" stroke="#888" stroke-width="0.6"/>
+      <!-- Orejas puntiagudas -->
+      <path d="M 24 36 L 22 24 L 30 30 Z" fill="#3a2a20" stroke="#0d0805" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 26 30; -8 26 30; 0 26 30" dur="1.4s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 38 36 L 38 24 L 44 32 Z" fill="#3a2a20" stroke="#0d0805" stroke-width="0.8">
+        <animateTransform attributeName="transform" type="rotate" values="0 41 30; 8 41 30; 0 41 30" dur="1.4s" repeatCount="indefinite" begin="0.3s"/>
+      </path>
+      <!-- Ojos rojos fieros -->
+      <circle cx="30" cy="48" r="2.5" fill="#fff"/>
+      <circle cx="30.8" cy="48.5" r="1.7" fill="#dc2626">
+        <animate attributeName="ry" values="1.7;0.3;1.7" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="31.5" cy="48" r="0.6" fill="#fff"/>
+      <!-- Ceja gruesa -->
+      <path d="M 26 43 L 34 44" stroke="#0d0805" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  `,
+  // ----- VACA (blanca con manchas negras) -----
+  cow: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cow-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#e0e0e0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="92" rx="28" ry="3" fill="rgba(0,0,0,0.3)"/>
+      <!-- Cuerpo -->
+      <ellipse cx="50" cy="58" rx="32" ry="23" fill="url(#cow-body-${id})" stroke="#666" stroke-width="1.2"/>
+      <!-- Manchas negras -->
+      <ellipse cx="38" cy="48" rx="6" ry="5" fill="#1a1a1a"/>
+      <ellipse cx="62" cy="52" rx="8" ry="6" fill="#1a1a1a"/>
+      <ellipse cx="50" cy="65" rx="5" ry="4" fill="#1a1a1a"/>
+      <ellipse cx="70" cy="68" rx="4" ry="3" fill="#1a1a1a"/>
+      <!-- Patas -->
+      <rect x="28" y="74" width="7" height="14" rx="1.5" fill="#fff" stroke="#666" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.9s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="40" y="76" width="7" height="14" rx="1.5" fill="#fff" stroke="#666" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.9s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="54" y="76" width="7" height="14" rx="1.5" fill="#fff" stroke="#666" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.9s" repeatCount="indefinite" begin="0.45s"/>
+      </rect>
+      <rect x="66" y="74" width="7" height="14" rx="1.5" fill="#fff" stroke="#666" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.9s" repeatCount="indefinite" begin="0.45s"/>
+      </rect>
+      <!-- Pezuñas -->
+      <rect x="28" y="86" width="7" height="3" fill="#1a1a1a"/>
+      <rect x="40" y="88" width="7" height="3" fill="#1a1a1a"/>
+      <rect x="54" y="88" width="7" height="3" fill="#1a1a1a"/>
+      <rect x="66" y="86" width="7" height="3" fill="#1a1a1a"/>
+      <!-- Ubre -->
+      <ellipse cx="50" cy="78" rx="6" ry="4" fill="#ffb3d1" stroke="#a04060" stroke-width="0.6"/>
+      <circle cx="46" cy="80" r="1" fill="#ff8ab0"/>
+      <circle cx="50" cy="82" r="1" fill="#ff8ab0"/>
+      <circle cx="54" cy="80" r="1" fill="#ff8ab0"/>
+      <!-- Cola con borla -->
+      <path d="M 80 50 Q 90 56 88 70" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0 80 60; 10 80 60; 0 80 60; -8 80 60; 0 80 60" dur="2.2s" repeatCount="indefinite"/>
+      </path>
+      <ellipse cx="88" cy="70" rx="3" ry="3" fill="#1a1a1a">
+        <animateTransform attributeName="transform" type="rotate" values="0 80 60; 10 80 60; 0 80 60; -8 80 60; 0 80 60" dur="2.2s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Cabeza -->
+      <ellipse cx="28" cy="48" rx="14" ry="14" fill="url(#cow-body-${id})" stroke="#666" stroke-width="1.2"/>
+      <!-- Mancha en cabeza -->
+      <ellipse cx="22" cy="42" rx="5" ry="4" fill="#1a1a1a"/>
+      <!-- Hocico rosa -->
+      <ellipse cx="20" cy="54" rx="8" ry="6" fill="#ffb3d1" stroke="#a04060" stroke-width="0.8"/>
+      <!-- Fosas -->
+      <ellipse cx="17" cy="52" rx="1.2" ry="2" fill="#7a3050"/>
+      <ellipse cx="17" cy="56" rx="1.2" ry="2" fill="#7a3050"/>
+      <!-- Cuernos pequeños -->
+      <path d="M 18 36 Q 14 30 18 32" fill="#fff5e1" stroke="#5c2c0a" stroke-width="1"/>
+      <path d="M 38 36 Q 42 30 38 32" fill="#fff5e1" stroke="#5c2c0a" stroke-width="1"/>
+      <!-- Orejas -->
+      <ellipse cx="20" cy="38" rx="3" ry="5" fill="#fff" stroke="#666" stroke-width="0.8" transform="rotate(-30 20 38)">
+        <animateTransform attributeName="transform" type="rotate" values="-30 20 38; -25 20 38; -30 20 38" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="36" cy="38" rx="3" ry="5" fill="#fff" stroke="#666" stroke-width="0.8" transform="rotate(30 36 38)">
+        <animateTransform attributeName="transform" type="rotate" values="30 36 38; 25 36 38; 30 36 38" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+      </ellipse>
+      <!-- Ojos con pestañas -->
+      <ellipse cx="28" cy="46" rx="2.5" ry="2" fill="#fff"/>
+      <circle cx="28.5" cy="46.5" r="1.5" fill="#2d1b0a">
+        <animate attributeName="ry" values="1.5;0.3;1.5" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="29" cy="46" r="0.5" fill="#fff"/>
+      <path d="M 26 44 L 25 42 M 28 43 L 27 41 M 30 44 L 30 42" stroke="#2d1b0a" stroke-width="0.6" stroke-linecap="round"/>
+      <!-- Sonrisa -->
+      <path d="M 18 60 Q 22 62 26 60" stroke="#a04060" stroke-width="0.8" fill="none"/>
+    </svg>
+  `,
+  // ----- TORO (negro completo con cuernos grandes) -----
+  bull: (id) => `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bull-body-${id}" cx="50%" cy="40%">
+          <stop offset="0%" stop-color="#2a2a2a"/>
+          <stop offset="60%" stop-color="#1a1a1a"/>
+          <stop offset="100%" stop-color="#080808"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="92" rx="30" ry="3" fill="rgba(0,0,0,0.4)"/>
+      <!-- Cuerpo musculoso -->
+      <ellipse cx="50" cy="58" rx="34" ry="24" fill="url(#bull-body-${id})" stroke="#000" stroke-width="1.2"/>
+      <!-- Brillo en lomo -->
+      <ellipse cx="50" cy="40" rx="20" ry="6" fill="#3a3a3a" opacity="0.5"/>
+      <!-- Patas robustas -->
+      <rect x="26" y="74" width="8" height="14" rx="1.5" fill="#1a1a1a" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.85s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="40" y="76" width="8" height="14" rx="1.5" fill="#1a1a1a" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.85s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="54" y="76" width="8" height="14" rx="1.5" fill="#1a1a1a" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="76;74;76" dur="0.85s" repeatCount="indefinite" begin="0.42s"/>
+      </rect>
+      <rect x="68" y="74" width="8" height="14" rx="1.5" fill="#1a1a1a" stroke="#000" stroke-width="0.8">
+        <animate attributeName="y" values="74;76;74" dur="0.85s" repeatCount="indefinite" begin="0.42s"/>
+      </rect>
+      <!-- Pezuñas -->
+      <rect x="26" y="86" width="8" height="3" fill="#3a2a20"/>
+      <rect x="40" y="88" width="8" height="3" fill="#3a2a20"/>
+      <rect x="54" y="88" width="8" height="3" fill="#3a2a20"/>
+      <rect x="68" y="86" width="8" height="3" fill="#3a2a20"/>
+      <!-- Cola con borla -->
+      <path d="M 82 50 Q 92 56 90 72" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0 82 60; 12 82 60; 0 82 60; -10 82 60; 0 82 60" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <ellipse cx="90" cy="72" rx="3.5" ry="3.5" fill="#000">
+        <animateTransform attributeName="transform" type="rotate" values="0 82 60; 12 82 60; 0 82 60; -10 82 60; 0 82 60" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Cabeza grande -->
+      <ellipse cx="28" cy="50" rx="16" ry="14" fill="url(#bull-body-${id})" stroke="#000" stroke-width="1.2"/>
+      <!-- Hocico -->
+      <ellipse cx="18" cy="55" rx="9" ry="6" fill="#1a1a1a" stroke="#000" stroke-width="1"/>
+      <!-- Anillo nasal dorado -->
+      <circle cx="14" cy="54" r="3" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+      <!-- Fosas -->
+      <ellipse cx="15" cy="52" rx="1.2" ry="1.8" fill="#000"/>
+      <ellipse cx="15" cy="56" rx="1.2" ry="1.8" fill="#000"/>
+      <!-- CUERNOS GRANDES -->
+      <path d="M 16 38 Q 6 28 4 36 Q 8 38 12 38 Z" fill="#fff5e1" stroke="#5c2c0a" stroke-width="1.5"/>
+      <path d="M 40 38 Q 50 28 52 36 Q 48 38 44 38 Z" fill="#fff5e1" stroke="#5c2c0a" stroke-width="1.5"/>
+      <!-- Brillo cuernos -->
+      <line x1="10" y1="36" x2="14" y2="38" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
+      <line x1="46" y1="36" x2="50" y2="38" stroke="#fff" stroke-width="0.6" opacity="0.6"/>
+      <!-- Orejas -->
+      <ellipse cx="22" cy="40" rx="3" ry="4" fill="#1a1a1a" stroke="#000" stroke-width="0.6" transform="rotate(-30 22 40)">
+        <animateTransform attributeName="transform" type="rotate" values="-30 22 40; -25 22 40; -30 22 40" dur="1.8s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="36" cy="40" rx="3" ry="4" fill="#1a1a1a" stroke="#000" stroke-width="0.6" transform="rotate(30 36 40)">
+        <animateTransform attributeName="transform" type="rotate" values="30 36 40; 25 36 40; 30 36 40" dur="1.8s" repeatCount="indefinite" begin="0.4s"/>
+      </ellipse>
+      <!-- Ojos rojos furiosos -->
+      <circle cx="28" cy="47" r="2.6" fill="#fff"/>
+      <circle cx="28.8" cy="47.5" r="1.7" fill="#dc2626">
+        <animate attributeName="ry" values="1.7;0.3;1.7" dur="5.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="29.4" cy="47" r="0.6" fill="#fff"/>
+      <!-- Ceja gruesa amenazante -->
+      <path d="M 24 43 L 34 43" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+      <!-- Vapor narices -->
+      <circle cx="6" cy="48" r="2" fill="#fff" opacity="0.4">
+        <animate attributeName="opacity" values="0;0.4;0" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="48;42;48" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="6" cy="60" r="2" fill="#fff" opacity="0.4">
+        <animate attributeName="opacity" values="0;0.4;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+        <animate attributeName="cy" values="60;66;60" dur="2s" repeatCount="indefinite" begin="1s"/>
+      </circle>
+    </svg>
+  `,
+};
+
+// ============================================================
+// GAME STATE
+// ============================================================
+const ANIMAL_TYPES = {
+  hen:    { kind: 'chicken', name: 'Gallina',  cost: 10,  daily: 0.50, days: 120, prod: 'huevos',   svg: 'chicken' },
+  rooster:{ kind: 'chicken', name: 'Gallo',    cost: 35,  daily: 1.00, days: 160, prod: 'huevos',   svg: 'rooster', requires: 'hen' },
+  sow:    { kind: 'pig',     name: 'Cerda',    cost: 40,  daily: 1.50, days: 120, prod: 'lechones', svg: 'sow' },
+  boar:   { kind: 'pig',     name: 'Cerdo',    cost: 100, daily: 2.00, days: 160, prod: 'lechones', svg: 'boar', requires: 'sow' },
+  cow:    { kind: 'cow',     name: 'Vaca',     cost: 200, daily: 2.20, days: 140, prod: 'leche',    svg: 'cow' },
+  bull:   { kind: 'cow',     name: 'Toro',     cost: 300, daily: 3.20, days: 140, prod: 'leche',    svg: 'bull', requires: 'cow' },
+};
+
+let state = null;
+const TRC20 = 'TRyntgVX33N9WN8G9haCSq6y8smHBwxtb3';
+const BEP20 = '0x36d220Bf3fbE8bB4A2910C181d50219E36611Fa1';
+
+function defaultState(name, email, refCode) {
+  return {
+    name, email,
+    id: 'PG' + Math.floor(100000 + Math.random()*900000),
+    balance: 0,
+    animals: [],
+    lastClaim: { chicken: Date.now(), pig: Date.now(), cow: Date.now() },
+    refCode: refCode || null,
+    myRefCode: 'PG' + Math.floor(100000 + Math.random()*900000),
+    referrals: { L1: 0, L2: 0, L3: 0, earned: 0 },
+    history: [],
+    dailyLogin: { day: 0, lastDate: null },
+    goldenAvailable: { chicken: false, pig: false },
+    lastGoldenCheck: { chicken: Date.now(), pig: Date.now() },
+    createdAt: Date.now(),
+  };
+}
+
+function save() { localStorage.setItem('porcana_state', JSON.stringify(state)); }
+function load() {
+  const raw = localStorage.getItem('porcana_state');
+  if (raw) { try { state = JSON.parse(raw); return true; } catch(e){} }
+  return false;
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+document.querySelectorAll('.login-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const which = tab.dataset.tab;
+    document.getElementById('form-login').style.display = which === 'login' ? 'block' : 'none';
+    document.getElementById('form-register').style.display = which === 'register' ? 'block' : 'none';
+  };
+});
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if (!email || !pass) return toast('Completa correo y contraseña');
+  const accounts = JSON.parse(localStorage.getItem('porcana_accounts') || '{}');
+  if (!accounts[email]) return toast('Correo no registrado');
+  if (accounts[email].pass !== pass) return toast('Contraseña incorrecta');
+  state = accounts[email].state;
+  save();
+  enterApp();
+}
+
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  const ref = document.getElementById('reg-ref').value.trim();
+  if (!name || !email || !pass) return toast('Completa todos los campos');
+  if (pass.length < 4) return toast('Contraseña mínima 4 caracteres');
+  const accounts = JSON.parse(localStorage.getItem('porcana_accounts') || '{}');
+  if (accounts[email]) return toast('Correo ya registrado');
+  state = defaultState(name, email, ref);
+  accounts[email] = { pass, state };
+  localStorage.setItem('porcana_accounts', JSON.stringify(accounts));
+  save();
+  toast('🎉 ¡Bienvenido a Porcana Green!', 'gold');
+  enterApp();
+}
+
+function enterApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  refreshAll();
+  startGameLoop();
+}
+
+// ============================================================
+// REFRESH UI
+// ============================================================
+function refreshAll() {
+  document.getElementById('player-name').textContent = state.name;
+  document.getElementById('player-id').textContent = '#' + state.id;
+  document.getElementById('balance-amount').textContent = state.balance.toFixed(2);
+  refreshAnimalsPill();
+  renderCorrals();
+  renderProductionTimers();
+}
+
+function refreshAnimalsPill() {
+  const counts = {};
+  Object.keys(ANIMAL_TYPES).forEach(k => counts[k] = 0);
+  state.animals.forEach(a => { if (counts[a.type] !== undefined) counts[a.type]++; });
+  const pill = document.getElementById('animals-pill');
+  const order = ['hen','rooster','sow','boar','cow','bull'];
+  pill.innerHTML = order.filter(k => counts[k] > 0).map(k => `
+    <div class="animal-count">
+      <div class="animal-count-icon">${miniSvg(ANIMAL_TYPES[k].svg, k)}</div>
+      <span>×${counts[k]}</span>
+    </div>
+  `).join('') || '<span style="font-size:10px;opacity:0.6">sin animales</span>';
+}
+
+function miniSvg(svgKey, id) {
+  return ANIMAL_SVG[svgKey](id + '-mini-' + Math.random().toString(36).substr(2,4));
+}
+
+// ============================================================
+// CORRALS - Animals walking around
+// ============================================================
+function renderCorrals() {
+  const cowsCorral = document.getElementById('corral-cows');
+  const chickenCorral = document.getElementById('corral-chickens');
+  const pigCorral = document.getElementById('corral-pigs');
+  // Clear
+  [cowsCorral, chickenCorral, pigCorral].forEach(c => {
+    c.querySelectorAll('.animal').forEach(a => a.remove());
+  });
+  // Render
+  const now = Date.now();
+  state.animals = state.animals.filter(a => (now - a.bornAt) < a.days * 86400000);
+  state.animals.forEach((a, idx) => {
+    const type = ANIMAL_TYPES[a.type];
+    if (!type) return;
+    let corral = chickenCorral;
+    if (type.kind === 'cow') corral = cowsCorral;
+    else if (type.kind === 'pig') corral = pigCorral;
+    const el = document.createElement('div');
+    el.className = 'animal';
+    el.id = 'animal-' + idx;
+    el.style.width = '52px';
+    el.style.height = '52px';
+    el.style.left = (15 + Math.random()*60) + '%';
+    el.style.top = (35 + Math.random()*45) + '%';
+    el.innerHTML = `
+      <div class="animal-svg">${ANIMAL_SVG[type.svg](idx)}</div>
+      ${a.tag ? `<div class="animal-tag ${a.tag === 'ORO' ? 'gold' : ''}">${a.tag}</div>` : ''}
+      ${a.tag ? `<div class="animal-time">${daysLeft(a)}d</div>` : ''}
+    `;
+    corral.appendChild(el);
+    // Start AI walking
+    walkAnimal(el, corral);
+  });
+  save();
+}
+
+function daysLeft(a) {
+  const ms = a.days * 86400000 - (Date.now() - a.bornAt);
+  return Math.max(0, Math.ceil(ms / 86400000));
+}
+
+function walkAnimal(el, corral) {
+  function nextStep() {
+    if (!el.parentElement) return;
+    const target = {
+      x: 15 + Math.random()*60,
+      y: 35 + Math.random()*45,
+    };
+    const currentX = parseFloat(el.style.left);
+    const flipX = target.x < currentX ? -1 : 1;
+    el.style.transform = `scaleX(${flipX})`;
+    el.style.left = target.x + '%';
+    el.style.top = target.y + '%';
+    const wait = 1500 + Math.random()*3500;
+    setTimeout(nextStep, wait);
+  }
+  setTimeout(nextStep, Math.random() * 2000);
+}
+
+// ============================================================
+// PRODUCTION
+// ============================================================
+const PROD_CYCLE = 12 * 60 * 60 * 1000; // 12h
+const GOLDEN_CYCLE = 6 * 86400000; // 6 days
+
+function timeLeft(ms) {
+  const total = Math.max(0, ms);
+  const h = Math.floor(total / 3600000);
+  const m = Math.floor((total % 3600000) / 60000);
+  return h + 'h ' + String(m).padStart(2,'0') + 'm';
+}
+
+function renderProductionTimers() {
+  ['chicken','pig','cow'].forEach(kind => {
+    const last = state.lastClaim[kind] || Date.now();
+    const elapsed = Date.now() - last;
+    const remaining = PROD_CYCLE - elapsed;
+    const ready = remaining <= 0;
+    const hasAnimals = state.animals.some(a => ANIMAL_TYPES[a.type].kind === kind);
+    const timerEl = document.getElementById('timer-' + kind);
+    const badgeEl = document.getElementById('badge-' + kind);
+    if (!hasAnimals) {
+      timerEl.textContent = 'Sin animales';
+      timerEl.classList.remove('ready');
+      badgeEl.style.display = 'none';
+    } else if (ready) {
+      timerEl.textContent = '¡LISTO!';
+      timerEl.classList.add('ready');
+      badgeEl.style.display = 'flex';
+      badgeEl.textContent = '!';
+    } else {
+      timerEl.textContent = timeLeft(remaining);
+      timerEl.classList.remove('ready');
+      badgeEl.style.display = 'none';
+    }
+  });
+}
+
+function claimProduction(kind) {
+  const elapsed = Date.now() - (state.lastClaim[kind] || Date.now());
+  if (elapsed < PROD_CYCLE) {
+    return toast('Aún no es hora. Faltan ' + timeLeft(PROD_CYCLE - elapsed));
+  }
+  const animals = state.animals.filter(a => ANIMAL_TYPES[a.type].kind === kind);
+  if (!animals.length) return toast('No tienes animales aquí');
+  // Half day production (12h = mitad del daily)
+  let earned = 0;
+  animals.forEach(a => {
+    earned += ANIMAL_TYPES[a.type].daily / 2;
+  });
+  state.balance += earned;
+  state.lastClaim[kind] = Date.now();
+  state.history.unshift({ type: 'in', amount: earned, desc: 'Producción ' + kind, date: Date.now() });
+
+  // Check golden chance (each 6 days, 20% chance)
+  if (kind === 'chicken' || kind === 'pig') {
+    const sinceGolden = Date.now() - (state.lastGoldenCheck[kind] || Date.now());
+    if (sinceGolden >= GOLDEN_CYCLE) {
+      state.lastGoldenCheck[kind] = Date.now();
+      if (Math.random() < 0.20) {
+        state.goldenAvailable[kind] = true;
+        toast('🥇 ¡Apareció un ' + (kind === 'chicken' ? 'huevo' : 'lechón') + ' de oro! Revisa la tienda', 'gold');
+      }
+    }
+  }
+
+  toast('+ $' + earned.toFixed(2) + ' USDT', 'gold');
+  refreshAll();
+}
+
+// ============================================================
+// SCREENS
+// ============================================================
+function openScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'shop') renderShop();
+  if (name === 'friends') renderFriends();
+  if (name === 'wallet') renderWallet('TRC20');
+  if (name === 'daily') renderDaily();
+  if (name === 'messages') renderMessages();
+  if (name === 'vip') renderVip();
+}
+
+function closeScreen() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-farm').classList.add('active');
+}
+
+// ============================================================
+// SHOP
+// ============================================================
+function renderShop() {
+  const c = document.getElementById('shop-content');
+  let html = '';
+  // Golden eggs
+  if (state.goldenAvailable.chicken || state.goldenAvailable.pig) {
+    html += `<div class="section-title">🥇 Premio Especial</div><div class="shop-grid">`;
+    if (state.goldenAvailable.chicken) {
+      html += `
+        <div class="shop-card" style="border-color:#ffd700;box-shadow:0 0 18px rgba(255,200,0,0.5)">
+          <div class="shop-card-popular" style="background:linear-gradient(180deg,#ffd700,#ff9b1c);color:#5c2c0a">ORO</div>
+          <div class="shop-card-img" style="background:linear-gradient(135deg,#fff5e1,#ffd700)">
+            <svg viewBox="0 0 100 100" width="80" height="80"><ellipse cx="50" cy="50" rx="32" ry="40" fill="#ffd700" stroke="#ff9b1c" stroke-width="3"/><ellipse cx="42" cy="38" rx="10" ry="14" fill="#fff5e1" opacity="0.6"/></svg>
+          </div>
+          <div class="shop-card-body">
+            <div class="shop-card-name">HUEVO DE ORO</div>
+            <div class="shop-card-stats"><div class="shop-card-stat">Da gallina hembra</div><div class="shop-card-stat">Duración: <strong>20 días</strong></div></div>
+            <button class="shop-card-btn" onclick="claimGolden('chicken')">RECLAMAR</button>
+          </div>
+        </div>`;
+    }
+    if (state.goldenAvailable.pig) {
+      html += `
+        <div class="shop-card" style="border-color:#ffd700;box-shadow:0 0 18px rgba(255,200,0,0.5)">
+          <div class="shop-card-popular" style="background:linear-gradient(180deg,#ffd700,#ff9b1c);color:#5c2c0a">ORO</div>
+          <div class="shop-card-img" style="background:linear-gradient(135deg,#fff5e1,#ffd700)">
+            <svg viewBox="0 0 100 100" width="80" height="80"><ellipse cx="50" cy="55" rx="30" ry="25" fill="#ffd700" stroke="#ff9b1c" stroke-width="3"/><circle cx="42" cy="48" r="3" fill="#5c2c0a"/><circle cx="58" cy="48" r="3" fill="#5c2c0a"/><ellipse cx="50" cy="62" rx="6" ry="4" fill="#ffe88a"/></svg>
+          </div>
+          <div class="shop-card-body">
+            <div class="shop-card-name">LECHÓN DE ORO</div>
+            <div class="shop-card-stats"><div class="shop-card-stat">Da cerda hembra</div><div class="shop-card-stat">Duración: <strong>20 días</strong></div></div>
+            <button class="shop-card-btn" onclick="claimGolden('pig')">RECLAMAR</button>
+          </div>
+        </div>`;
+    }
+    html += `</div>`;
+  }
+  // Regular shop
+  html += `<div class="section-title">🐔 Aves de Corral</div><div class="shop-grid">`;
+  ['hen','rooster'].forEach(k => html += shopCardHTML(k));
+  html += `</div><div class="section-title">🐖 Cerdos</div><div class="shop-grid">`;
+  ['sow','boar'].forEach(k => html += shopCardHTML(k));
+  html += `</div><div class="section-title">🐄 Ganado</div><div class="shop-grid">`;
+  ['cow','bull'].forEach(k => html += shopCardHTML(k));
+  html += `</div>`;
+  c.innerHTML = html;
+}
+
+function shopCardHTML(key) {
+  const t = ANIMAL_TYPES[key];
+  const popular = key === 'sow' ? '<div class="shop-card-popular">POPULAR</div>' : '';
+  return `
+    <div class="shop-card">
+      ${popular}
+      <div class="shop-card-img">${ANIMAL_SVG[t.svg](key + '-shop')}</div>
+      <div class="shop-card-body">
+        <div class="shop-card-name">${t.name.toUpperCase()}</div>
+        <div class="shop-card-stats">
+          <div class="shop-card-stat"><span>Costo:</span><strong>$${t.cost}</strong></div>
+          <div class="shop-card-stat"><span>Diario:</span><strong>$${t.daily.toFixed(2)}</strong></div>
+          <div class="shop-card-stat"><span>Días:</span><strong>${t.days}</strong></div>
+          <div class="shop-card-stat"><span>Total:</span><strong>$${(t.daily * t.days).toFixed(2)}</strong></div>
+        </div>
+        <button class="shop-card-btn" onclick="buyAnimal('${key}')">COMPRAR</button>
+      </div>
+    </div>
+  `;
+}
+
+function buyAnimal(key) {
+  const t = ANIMAL_TYPES[key];
+  if (state.balance < t.cost) return toast('Saldo insuficiente. Necesitas $' + t.cost);
+  if (t.requires) {
+    const has = state.animals.some(a => a.type === t.requires && !a.tag);
+    if (!has) return toast('Necesitas tener un/a ' + ANIMAL_TYPES[t.requires].name + ' paga primero');
+  }
+  state.balance -= t.cost;
+  state.animals.push({ type: key, bornAt: Date.now(), days: t.days });
+  state.history.unshift({ type: 'out', amount: t.cost, desc: 'Compra: ' + t.name, date: Date.now() });
+  toast('🎉 ¡Compraste 1 ' + t.name + '!', 'gold');
+  refreshAll();
+  renderShop();
+}
+
+function claimGolden(kind) {
+  state.goldenAvailable[kind] = false;
+  const type = kind === 'chicken' ? 'hen' : 'sow';
+  state.animals.push({
+    type, bornAt: Date.now(), days: 20, tag: 'ORO'
+  });
+  toast('🥇 ¡' + (kind === 'chicken' ? 'Gallina' : 'Cerda') + ' de oro añadida!', 'gold');
+  refreshAll();
+  renderShop();
+}
+
+// ============================================================
+// FRIENDS
+// ============================================================
+function renderFriends() {
+  const c = document.getElementById('friends-content');
+  c.innerHTML = `
+    <div class="ref-card">
+      <div style="font-family:'Luckiest Guy',cursive;font-size:18px;margin-bottom:6px">🎁 INVITA Y GANA</div>
+      <div style="font-size:12px;font-weight:600;opacity:0.85">Tu código de referido:</div>
+      <div class="ref-link">${state.myRefCode}</div>
+      <button class="wallet-btn" onclick="copyText('${state.myRefCode}')">📋 COPIAR CÓDIGO</button>
+    </div>
+    <div class="ref-tiers">
+      <div class="ref-tier"><div class="ref-tier-pct">3%</div><div class="ref-tier-label">NIVEL 1</div></div>
+      <div class="ref-tier"><div class="ref-tier-pct">2%</div><div class="ref-tier-label">NIVEL 2</div></div>
+      <div class="ref-tier"><div class="ref-tier-pct">1%</div><div class="ref-tier-label">NIVEL 3</div></div>
+    </div>
+    <div class="ref-stats">
+      <div class="ref-stat-row"><span>Referidos N1:</span><strong>${state.referrals.L1}</strong></div>
+      <div class="ref-stat-row"><span>Referidos N2:</span><strong>${state.referrals.L2}</strong></div>
+      <div class="ref-stat-row"><span>Referidos N3:</span><strong>${state.referrals.L3}</strong></div>
+      <div class="ref-stat-row"><span>Total ganado:</span><strong>$${state.referrals.earned.toFixed(2)}</strong></div>
+    </div>
+    <div class="section-title">📋 Reglas</div>
+    <div style="background:#fff;border:2px solid #d4a04a;border-radius:12px;padding:10px;font-size:12px;line-height:1.5;color:#5c2c0a">
+      • Solo cuentan los referidos que <strong>invierten</strong>.<br>
+      • Comisión calculada sobre el monto que invierte tu referido.<br>
+      • Acumula sin límite.
+    </div>
+  `;
+}
+
+// ============================================================
+// WALLET
+// ============================================================
+let currentNet = 'TRC20';
+function renderWallet(net) {
+  currentNet = net;
+  const c = document.getElementById('wallet-content');
+  const addr = net === 'TRC20' ? TRC20 : BEP20;
+  c.innerHTML = `
+    <div class="wallet-tabs">
+      <button class="wallet-tab ${net==='TRC20'?'active':''}" onclick="renderWallet('TRC20')">TRC20 (TRON)</button>
+      <button class="wallet-tab ${net==='BEP20'?'active':''}" onclick="renderWallet('BEP20')">BEP20 (BSC)</button>
+    </div>
+    <div class="wallet-card">
+      <div class="wallet-label">Dirección de Depósito · ${net}</div>
+      <div class="wallet-address">${addr}</div>
+      <button class="wallet-btn" onclick="copyText('${addr}')">📋 COPIAR DIRECCIÓN</button>
+      <div class="wallet-info" style="margin-top:10px"><span>Mínimo depósito:</span><strong>$10 USDT</strong></div>
+      <div class="wallet-info"><span>Mínimo retiro:</span><strong>$3 USDT</strong></div>
+      <div class="wallet-info"><span>Comisión retiro:</span><strong>$1 USDT</strong></div>
+    </div>
+    <div class="action-btns">
+      <button class="action-btn deposit" onclick="showDeposit()">⬇️ DEPOSITAR</button>
+      <button class="action-btn withdraw" onclick="showWithdraw()">⬆️ RETIRAR</button>
+    </div>
+    <div class="section-title">📜 Historial</div>
+    <div id="history-list">${state.history.slice(0,15).map(h => `
+      <div class="history-item">
+        <span>${h.type==='in'?'⬇️':'⬆️'} ${h.desc}</span>
+        <span class="history-amount ${h.type}">${h.type==='in'?'+':'-'}$${h.amount.toFixed(2)}</span>
+      </div>
+    `).join('') || '<div style="text-align:center;opacity:0.5;padding:20px">Sin movimientos</div>'}</div>
+  `;
+}
+
+function showDeposit() {
+  showModal(`
+    <h2>⬇️ DEPOSITAR</h2>
+    <p style="text-align:center;font-size:13px;margin-bottom:12px">Envía USDT (${currentNet}) a esta dirección:</p>
+    <div style="background:#fff;border:2px dashed #d4a04a;padding:10px;border-radius:8px;font-family:monospace;font-size:11px;word-break:break-all;text-align:center;margin-bottom:8px">${currentNet==='TRC20'?TRC20:BEP20}</div>
+    <p style="font-size:11px;text-align:center;color:#a04060">⚠️ Mínimo $10 USDT · Solo red ${currentNet}</p>
+    <div class="modal-btns"><button class="action-btn deposit" onclick="copyText('${currentNet==='TRC20'?TRC20:BEP20}')">📋 COPIAR</button><button class="action-btn withdraw" onclick="closeModal()">CERRAR</button></div>
+  `);
+}
+
+function showWithdraw() {
+  showModal(`
+    <h2>⬆️ RETIRAR USDT</h2>
+    <label>Monto (mínimo $3)</label>
+    <input type="number" id="w-amount" placeholder="0.00" min="3" step="0.01" oninput="updateWSummary()">
+    <label>Dirección de billetera (${currentNet})</label>
+    <input type="text" id="w-addr" placeholder="${currentNet==='TRC20'?'TR...':'0x...'}">
+    <div style="background:#fff;padding:8px;border-radius:8px;border:1px dashed #d4a04a;font-size:12px;margin:6px 0" id="w-summary">
+      Tu balance: <strong>$${state.balance.toFixed(2)}</strong>
+    </div>
+    <div class="modal-btns"><button class="action-btn deposit" onclick="confirmWithdraw()">CONFIRMAR</button><button class="action-btn withdraw" onclick="closeModal()">CANCELAR</button></div>
+  `);
+}
+
+function updateWSummary() {
+  const amt = parseFloat(document.getElementById('w-amount').value) || 0;
+  const fee = 1;
+  const recv = Math.max(0, amt - fee);
+  document.getElementById('w-summary').innerHTML = `
+    Monto: <strong>$${amt.toFixed(2)}</strong><br>
+    Comisión: <strong>-$${fee.toFixed(2)}</strong><br>
+    Recibirás: <strong style="color:#2d8b1f">$${recv.toFixed(2)}</strong>
+  `;
+}
+
+function confirmWithdraw() {
+  const amt = parseFloat(document.getElementById('w-amount').value);
+  const addr = document.getElementById('w-addr').value.trim();
+  if (!amt || amt < 3) return toast('Mínimo $3 USDT');
+  if (amt > state.balance) return toast('Saldo insuficiente');
+  if (!addr) return toast('Ingresa una dirección');
+  if (currentNet === 'TRC20' && !addr.startsWith('T')) return toast('Dirección TRC20 inválida');
+  if (currentNet === 'BEP20' && !addr.startsWith('0x')) return toast('Dirección BEP20 inválida');
+  state.balance -= amt;
+  state.history.unshift({ type: 'out', amount: amt, desc: 'Retiro ' + currentNet, date: Date.now() });
+  closeModal();
+  toast('✅ Retiro solicitado por $' + amt.toFixed(2));
+  refreshAll();
+  renderWallet(currentNet);
+}
+
+// ============================================================
+// DAILY LOGIN
+// ============================================================
+function renderDaily() {
+  const c = document.getElementById('daily-content');
+  const today = new Date().toDateString();
+  let canClaim = state.dailyLogin.lastDate !== today;
+  let cells = '';
+  for (let i = 1; i <= 10; i++) {
+    const reward = (i / 10).toFixed(2);
+    const claimed = state.dailyLogin.day >= i;
+    const isToday = !claimed && state.dailyLogin.day + 1 === i && canClaim;
+    cells += `
+      <div class="daily-cell ${claimed?'claimed':''} ${isToday?'today':''}" ${isToday?'onclick="claimDaily()"':''}>
+        <div class="daily-day">DÍA ${i}</div>
+        <div class="daily-amount">$${reward}</div>
+        ${claimed ? '<div style="position:absolute;top:2px;right:4px;font-size:14px">✓</div>' : ''}
+      </div>
+    `;
+  }
+  c.innerHTML = `
+    <div style="background:linear-gradient(135deg,#ffd700,#ff9b1c);padding:14px;border-radius:14px;border:3px solid #fff;color:#5c2c0a;text-align:center;margin-bottom:12px">
+      <div style="font-family:'Luckiest Guy',cursive;font-size:20px">🎁 RECOMPENSA DIARIA</div>
+      <div style="font-size:12px;margin-top:4px">Reclama cada día por 10 días. Día 11 se reinicia.</div>
+    </div>
+    <div class="daily-grid">${cells}</div>
+    ${!canClaim ? '<p style="text-align:center;margin-top:10px;font-size:13px;color:#5c2c0a">✅ Ya reclamaste hoy. Vuelve mañana.</p>' : ''}
+  `;
+}
+
+function claimDaily() {
+  const today = new Date().toDateString();
+  if (state.dailyLogin.lastDate === today) return;
+  state.dailyLogin.day = state.dailyLogin.day >= 10 ? 1 : state.dailyLogin.day + 1;
+  state.dailyLogin.lastDate = today;
+  const reward = state.dailyLogin.day / 10;
+  state.balance += reward;
+  state.history.unshift({ type: 'in', amount: reward, desc: 'Login Día ' + state.dailyLogin.day, date: Date.now() });
+  toast('🎁 +$' + reward.toFixed(2) + ' USDT — ¡Día ' + state.dailyLogin.day + '!', 'gold');
+  refreshAll();
+  renderDaily();
+}
+
+// ============================================================
+// MESSAGES & VIP placeholders
+// ============================================================
+function renderMessages() {
+  document.getElementById('messages-content').innerHTML = `
+    <div style="background:#fff;border:2px solid #d4a04a;border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-weight:700;color:#5c2c0a">📢 Bienvenido a Porcana Green</div>
+      <div style="font-size:12px;color:#5c2c0a;margin-top:4px;opacity:0.8">Cría animales, genera USDT, retira a tu wallet. ¡Buena suerte granjero!</div>
+      <div style="font-size:10px;opacity:0.5;margin-top:6px">Hace 2 minutos</div>
+    </div>
+    <div style="background:#fff;border:2px solid #d4a04a;border-radius:14px;padding:14px">
+      <div style="font-weight:700;color:#5c2c0a">🎁 Bono activo</div>
+      <div style="font-size:12px;color:#5c2c0a;margin-top:4px;opacity:0.8">Invita amigos y gana hasta 6% en comisiones combinadas.</div>
+      <div style="font-size:10px;opacity:0.5;margin-top:6px">Hoy</div>
+    </div>
+  `;
+}
+
+function renderVip() {
+  document.getElementById('vip-content').innerHTML = `
+    <div style="background:linear-gradient(135deg,#ffd700,#ff9b1c);padding:18px;border-radius:18px;border:3px solid #fff;color:#5c2c0a;text-align:center">
+      <div style="font-family:'Luckiest Guy',cursive;font-size:26px">⭐ VIP CLUB</div>
+      <div style="margin-top:8px;font-size:13px">Pronto disponible</div>
+      <div style="margin-top:12px;font-size:12px;opacity:0.85">Beneficios exclusivos para inversores top:<br>• Producción 2x<br>• Soporte prioritario<br>• Comisiones extra<br>• Animales exclusivos</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showModal(html) {
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+document.getElementById('modal').onclick = (e) => { if (e.target.id === 'modal') closeModal(); };
+
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'gold' ? ' gold' : '');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => toast('📋 Copiado al portapapeles'));
+}
+
+// ============================================================
+// LOOP
+// ============================================================
+function startGameLoop() {
+  setInterval(() => {
+    renderProductionTimers();
+  }, 30000);
+  // Re-render corrals every 5 min for animals expiry
+  setInterval(() => {
+    const before = state.animals.length;
+    state.animals = state.animals.filter(a => (Date.now() - a.bornAt) < a.days * 86400000);
+    if (state.animals.length !== before) {
+      renderCorrals();
+      refreshAnimalsPill();
+    }
+  }, 60000);
+}
+
+// ============================================================
+// AUTO LOGIN
+// ============================================================
+if (load() && state) enterApp();
+
+</script>
+</body>
+</html>
